@@ -10,5 +10,5 @@ public enum Authority {
     ROOT("ROOT");
 
     @Getter
-    public final String role;
+    public final String authority;
 }
