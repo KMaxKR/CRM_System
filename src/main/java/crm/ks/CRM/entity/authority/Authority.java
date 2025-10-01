@@ -1,10 +1,10 @@
-package crm.ks.CRM.entity.user_aspects;
+package crm.ks.CRM.entity.authority;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public enum Role {
+public enum Authority {
     USER("USER"),
     ADMIN("ADMIN"),
     ROOT("ROOT");

@@ -1,6 +1,7 @@
 package crm.ks.CRM.entity;
 
-import crm.ks.CRM.entity.user_aspects.Role;
+import crm.ks.CRM.entity.authority.Authority;
+import crm.ks.CRM.entity.authority.AuthorityType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +26,21 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
+    @Column(name = "authority")
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Authority role;
+
+    @Column(name = "authority_type")
+    @Enumerated(EnumType.STRING)
+    private AuthorityType authority_type;
+
+    @Column(name = "provider")
+    @Enumerated(EnumType.STRING)
+    private String provider;
+
+    //TODO on other server side image storage
+    @Column(name = "img_url")
+    private String img_url;
+
+    @Column(name = "")
 }
