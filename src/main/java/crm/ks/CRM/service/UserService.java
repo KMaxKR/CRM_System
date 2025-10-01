@@ -4,11 +4,13 @@ import crm.ks.CRM.entity.User;
 import crm.ks.CRM.interfaces.UserServiceInterface;
 import crm.ks.CRM.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserService implements UserDetailsService, UserServiceInterface {
@@ -27,7 +29,13 @@ public class UserService implements UserDetailsService, UserServiceInterface {
 
     @Override
     public void updateUser(User user) {
-
+        if (userExistsByUsername(user.getUsername()) && userExistsByEmail(user.getEmail())){
+            userRepository.save(user);
+            log.info("User {} was updated", user.getUsername());
+        }else {
+            userRepository.save(user);
+            log.info("User {}, doesn't exists in data base, and was added", user.getUsername());
+        }
     }
 
     @Override
