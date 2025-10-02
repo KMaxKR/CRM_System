@@ -2,6 +2,7 @@ package crm.ks.CRM.entity;
 
 import crm.ks.CRM.entity.authority.Authority;
 import crm.ks.CRM.entity.authority.AuthorityType;
+import crm.ks.CRM.entity.provider.Provider;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,7 +47,7 @@ public class User implements UserDetails {
 
     @Column(name = "provider")
     @Enumerated(EnumType.STRING)
-    private String provider;
+    private Provider provider;
 
     //TODO on other server side image storage
     @Column(name = "img_url")
