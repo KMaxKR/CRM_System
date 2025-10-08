@@ -1,17 +1,19 @@
 package crm.ks.CRM.entity;
 
 import crm.ks.CRM.entity.authority.Authority;
-import crm.ks.CRM.entity.authority.AuthorityType;
 import crm.ks.CRM.entity.provider.Provider;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements UserDetails {
+public class UserEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,10 +43,6 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    @Column(name = "authority_type")
-    @Enumerated(EnumType.STRING)
-    private AuthorityType authority_type;
-
     @Column(name = "provider")
     @Enumerated(EnumType.STRING)
     private Provider provider;
@@ -56,6 +54,14 @@ public class User implements UserDetails {
     @Column(name = "isEnable")
     private Boolean isEnable;
 
+    @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
+    private Timestamp created_at;
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private Timestamp updated_at;
+
     @Column(name = "last_login")
     private Date last_login;
 
@@ -63,16 +69,16 @@ public class User implements UserDetails {
         unique code for all users -> #xxxx
         Code format     -> #
         Authority level -> 1
-        AuthorityType   -> 1
         Digits          -> 0
         Digits          -> 0
-        Output          -> #1100
+        Digits          -> 1
+        Output          -> #1001
      */
     @Column(name = "unique_code")
     private String unique_code;
 
-    @Column(name = "verificated")
-    private Boolean verificated;
+    @Column(name = "verified")
+    private Boolean verified;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -81,21 +87,21 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return isEnable;
+        return isEnable && verified;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return isEnable;
+        return isEnable && verified;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return isEnable;
+        return isEnable && verified;
     }
 
     @Override
     public boolean isEnabled() {
-        return isEnable;
+        return isEnable && verified;
     }
 }
