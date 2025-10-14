@@ -74,7 +74,12 @@ public class UserService implements UserDetailsService, UserServiceInterface {
                 .build();
     }
     private ProfileResponse convertEntityToProfileResponse(UserEntity newProfile) {
-        return null;
+        return ProfileResponse.builder()
+                .username(newProfile.getUsername())
+                .email(newProfile.getEmail())
+                .unique_code(newProfile.getUnique_code())
+                .isAccountVerified(newProfile.getVerified())
+                .build();
     }
 
     private String generateUniqueCode(Authority authority){

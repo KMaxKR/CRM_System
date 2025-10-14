@@ -13,6 +13,7 @@ import java.io.IOException;
 @Component
 @AllArgsConstructor
 public class ClassicAuthenticationHandler implements AuthenticationSuccessHandler {
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
