@@ -8,11 +8,13 @@ import crm.ks.CRM.io.ProfileResponse;
 import crm.ks.CRM.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @Service
@@ -30,8 +32,11 @@ public class UserService implements UserDetailsService, UserServiceInterface {
     @Override
     public ProfileResponse createUser(ProfileRequest user) {
         UserEntity newProfile = convertProfileRequestToEntity(user);
-        newProfile = userRepository.save(newProfile);
-        return convertEntityToProfileResponse(newProfile);
+        if (!userRepository.existsByUsername(user.getUsername()) && !userRepository.existsByEmail(user.getEmail())){
+            newProfile = userRepository.save(newProfile);
+            return convertEntityToProfileResponse(newProfile);
+        }
+        throw new ResponseStatusException(HttpStatus.CONFLICT, "Email/Username already exist");
     }
 
     @Override

@@ -3,6 +3,7 @@ package crm.ks.CRM.controllers;
 import crm.ks.CRM.io.ProfileRequest;
 import crm.ks.CRM.io.ProfileResponse;
 import crm.ks.CRM.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public ProfileResponse registerNewUser(@RequestBody ProfileRequest profileRequest
+    public ProfileResponse registerNewUser(@Valid @RequestBody ProfileRequest profileRequest
     ){
         log.info(profileRequest.getUsername());
         ProfileResponse response = userService.createUser(profileRequest);
